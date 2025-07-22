@@ -1,12 +1,12 @@
 import { generateToken } from "../libs/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //Signup
 export const signup = async (req, res) => {
-  const { fullName, email, password } = req.body;
-
   try {
+    const { fullName, email, password } = req.body;
     // Password length validation
     if (password.length < 6) {
       res.status(400).send("Password Length Must be Greater than 6");
@@ -47,9 +47,27 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
-  res.send("from login");
+//Login
+export const login =async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).send("Incorrect Credential!");
+    }
+    const verifyPassword = await bcrypt.compare(password, user.password);
+    if (!verifyPassword) {
+      res.status(404).send("Incorrect Credential!");
+    }
+    generateToken(user._id, res);
+    res.status(200).send("Successfully logged in..");
+  } catch (err) {
+    console.log("Error: ", err.message);
+    res.status(500).send("Internal Server Error");
+  }
 };
+
+//logout
 export const logout = (req, res) => {
   res.send("from logout");
 };
