@@ -48,7 +48,7 @@ export const signup = async (req, res) => {
 };
 
 //Login
-export const login =async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -69,5 +69,16 @@ export const login =async (req, res) => {
 
 //logout
 export const logout = (req, res) => {
-  res.send("from logout");
+  try {
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    res.status(200).send("Logged out successfully.");
+  } catch (err) {
+    console.log("Error: ", err.message);
+    res.status(500).send("Internal Server Error");
+  }
 };
