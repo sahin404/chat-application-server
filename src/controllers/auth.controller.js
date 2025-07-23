@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
     }
   } catch (error) {
     console.log("Error: ", error.message);
-    res.status(500).json({message:"Internal Servel Error"});
+    res.status(500).json({ message: "Internal Servel Error" });
   }
 };
 
@@ -51,7 +51,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    
+
     //user not found
     if (!user) {
       return res.status(404).send("Incorrect Credential!");
@@ -64,11 +64,9 @@ export const login = async (req, res) => {
 
     generateToken(user._id, res);
     res.status(200).send("Successfully logged in..");
-  } 
-  
-  catch (err) {
+  } catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).json({message:"Internal Servel Error"});
+    res.status(500).json({ message: "Internal Servel Error" });
   }
 };
 
@@ -84,7 +82,7 @@ export const logout = (req, res) => {
     res.status(200).send("Logged out successfully.");
   } catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).json({message:"Internal Servel Error"});
+    res.status(500).json({ message: "Internal Servel Error" });
   }
 };
 
@@ -108,9 +106,20 @@ export const updateProfile = async (req, res) => {
     );
 
     res.status(200).send(updatedUser);
-    
-  } catch (err) {
+  } 
+  catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).json({message:"Internal Servel Error"});
+    res.status(500).json({ message: "Internal Servel Error" });
+  }
+};
+
+//check
+export const checkAuth = (req, res) => {
+  try {
+    res.status(200).send(req.user);
+  } 
+  catch (err) {
+    console.log("Error: ", err.message);
+    res.status(500).json({ message: "Internal Servel Error" });
   }
 };

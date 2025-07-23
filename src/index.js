@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.route.js';
 import { dbConnect } from './libs/db.js';
 
@@ -7,6 +8,7 @@ import { dbConnect } from './libs/db.js';
 const app  = express();
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser());
 
 
 //routes

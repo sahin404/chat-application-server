@@ -36,6 +36,6 @@ export const protectRoute = async (req, res, next) => {
     next();
   } catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Errors");
   }
 };
