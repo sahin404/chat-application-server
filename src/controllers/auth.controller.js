@@ -8,13 +8,13 @@ export const signup = async (req, res) => {
     const { fullName, email, password } = req.body;
     // Password length validation
     if (password.length < 6) {
-      res.status(400).send("Password Length Must be Greater than 6");
+      return res.status(400).send("Password Length Must be Greater than 6");
     }
 
     // Email already exists check
     const isEmailExist = await User.findOne({ email: email });
     if (isEmailExist) {
-      res.status(400).send("User is Already Exists");
+      return res.status(400).send("User is Already Exists");
     }
 
     // Password hashing
@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
     }
   } catch (error) {
     console.log("Error: ", error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({message:"Internal Servel Error"});
   }
 };
 
@@ -51,18 +51,24 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+    
+    //user not found
     if (!user) {
-      res.status(404).send("Incorrect Credential!");
+      return res.status(404).send("Incorrect Credential!");
     }
+
     const verifyPassword = await bcrypt.compare(password, user.password);
     if (!verifyPassword) {
-      res.status(404).send("Incorrect Credential!");
+      return res.status(404).send("Incorrect Credential!");
     }
+
     generateToken(user._id, res);
     res.status(200).send("Successfully logged in..");
-  } catch (err) {
+  } 
+  
+  catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({message:"Internal Servel Error"});
   }
 };
 
@@ -78,11 +84,33 @@ export const logout = (req, res) => {
     res.status(200).send("Logged out successfully.");
   } catch (err) {
     console.log("Error: ", err.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({message:"Internal Servel Error"});
   }
 };
 
 //Update
-export const updateProfile = (req,res)=>{
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    if (!profilePic) {
+      return res.status(400).json({ Message: "Profile pic is required!" });
+    }
 
-}
+    //upload image into cloudinary
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+
+    //Uploaded image link should set into database
+    const userID = req.user._id;
+    const updatedUser = await User.findByIdAndUpdate(
+      userID,
+      { profilePic: uploadResponse.secure_url },
+      { new: true }
+    );
+
+    res.status(200).send(updatedUser);
+    
+  } catch (err) {
+    console.log("Error: ", err.message);
+    res.status(500).json({message:"Internal Servel Error"});
+  }
+};
