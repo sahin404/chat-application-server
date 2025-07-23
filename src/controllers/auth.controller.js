@@ -1,7 +1,6 @@
 import { generateToken } from "../libs/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 //Signup
 export const signup = async (req, res) => {
@@ -85,5 +84,5 @@ export const logout = (req, res) => {
 
 //Update
 export const updateProfile = (req,res)=>{
-  
+
 }
