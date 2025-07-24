@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.route.js';
 import { dbConnect } from './libs/db.js';
+import messageRouter from './routes/message.route.js';
 
 //middlewares
 const app  = express();
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 //routes
 app.use('/api/auth', authRouter);
+app.use('/api/message', messageRouter);
 
 //server running
 app.listen(process.env.PORT, ()=>{
