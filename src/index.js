@@ -20,7 +20,7 @@ app.use(cors({
 
 //routes
 app.use('/api/auth', authRouter);
-app.use('/api/message', messageRouter);
+app.use('/api/messages', messageRouter);
 
 //server running
 app.listen(process.env.PORT, ()=>{
