@@ -1,6 +1,8 @@
 import { generateToken } from "../libs/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import cloudinary from '../libs/cloudinary.js'
+
 
 //Signup
 export const signup = async (req, res) => {
@@ -108,7 +110,7 @@ export const updateProfile = async (req, res) => {
     res.status(200).send(updatedUser);
   } 
   catch (err) {
-    console.log("Error: ", err.message);
+    console.log("Error:", err.message);
     res.status(500).json({ message: "Internal Servel Error" });
   }
 };
