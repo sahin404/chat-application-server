@@ -1,6 +1,8 @@
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 import cloudinary from 'cloudinary';
+import {getUserSocketId }from '../libs/socket.js';
+import { io } from "../libs/socket.js";
 
 //Load users for Sidebar Showing
 export const getUsersForSideBar = async (req, res) => {
@@ -61,7 +63,13 @@ export const sendMessage = async (req, res) => {
 
     await newMessage.save();
 
-    //todo: Socket.io Functionality
+    //This message send to the client by socket
+   const receiverSocketId = getUserSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("sendNewMessage", newMessage);
+    }
+
+    res.status(201).json(newMessage);
   } catch (err) {
     console.error("Error:", err.message);
     res.status(500).json({ error: "Message sending failed" });

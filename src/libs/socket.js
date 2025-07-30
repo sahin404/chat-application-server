@@ -12,13 +12,20 @@ const io = new Server(server, {
   },
 });
 
+//map for storing online Users
 const usersSocketMap = {};
 
+// return data socketid to message controller
+export const getUserSocketId = (userId)=>{
+  return usersSocketMap[userId];
+}
+
+//socket server
 io.on("connection", (socket) => {
   console.log("Socket connected with user: ", socket.id);
 
   const userId = socket.handshake.query.id;
-    console.log(userId);
+  
   if (userId) {
     usersSocketMap[userId] = socket.id;
   }
