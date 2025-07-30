@@ -1,8 +1,7 @@
 import { generateToken } from "../libs/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import cloudinary from '../libs/cloudinary.js'
-
+import cloudinary from "../libs/cloudinary.js";
 
 //Signup
 export const signup = async (req, res) => {
@@ -35,7 +34,12 @@ export const signup = async (req, res) => {
     try {
       generateToken(savedUser._id, res);
       console.log("New user is created successfully!");
-      res.status(201).send("Account is created Successfully");
+      res.status(201).json({
+        _id: newUser._id,
+        fullName: newUser.fullName,
+        email: newUser.email,
+        profilePic: newUser.profilePic,
+      });
     } catch (tokenError) {
       //token Error so delete the user from database
       await User.findByIdAndDelete(savedUser._id);
@@ -65,7 +69,12 @@ export const login = async (req, res) => {
     }
 
     generateToken(user._id, res);
-    res.status(200).send("Successfully logged in..");
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
   } catch (err) {
     console.log("Error: ", err.message);
     res.status(500).json({ message: "Internal Servel Error" });
@@ -107,9 +116,8 @@ export const updateProfile = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).send(updatedUser);
-  } 
-  catch (err) {
+    res.status(200).json(updatedUser);
+  } catch (err) {
     console.log("Error:", err.message);
     res.status(500).json({ message: "Internal Servel Error" });
   }
@@ -119,8 +127,7 @@ export const updateProfile = async (req, res) => {
 export const checkAuth = (req, res) => {
   try {
     res.status(200).send(req.user);
-  } 
-  catch (err) {
+  } catch (err) {
     console.log("Error: ", err.message);
     res.status(500).json({ message: "Internal Servel Error" });
   }
