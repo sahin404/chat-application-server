@@ -1,4 +1,4 @@
-# Delichat - Backend
+# Delichat - Backend(server)
 
 The backend of the real-time chat app **Delichat**, built using **Express.js**, **MongoDB**, and **Socket.IO**. It handles JWT user authentication, message storage, and real-time communication between users.
 
