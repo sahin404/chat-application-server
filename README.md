@@ -17,7 +17,7 @@ The backend of the real-time chat app **Delichat**, built using **Express.js**, 
 - **Backend Repo:** [Delichat Server](https://github.com/sahin404/chat-application-server)  
 - **Frontend Repo:** [Delichat Client](https://github.com/sahin404/chat-application-client)
 
-## Pages / Endpoints
+## Pages
 
 - **Login Page:**
   ![Login Page](https://github.com/sahin404/chat-application-client/blob/main/public/loginPage.png)
@@ -30,6 +30,6 @@ The backend of the real-time chat app **Delichat**, built using **Express.js**, 
 
 ```bash
 git clone https://github.com/your-username/chat-application-server.git
-delichat-server
+cd chat-application-server
 npm install
 nodemon index.js
