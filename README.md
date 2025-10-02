@@ -20,7 +20,7 @@ The backend of the real-time chat app **Delichat**, built using **Express.js**, 
 ## Pages / Endpoints
 
 - **Login Page:**
-  ![Login Page](https://github.com/sahin404/chat-application-client/blob/main/public/loginBanner.jpg)
+  ![Login Page](https://github.com/sahin404/chat-application-client/blob/main/public/loginPage.png)
 
 - **Message Page:**
   ![Message Page](https://github.com/sahin404/chat-application-client/blob/main/public/messagePage.png)
